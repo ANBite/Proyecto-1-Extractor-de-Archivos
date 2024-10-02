@@ -1,49 +1,67 @@
 import os
+import time
 from tkinter import filedialog
 import customtkinter as ctk
-from PIL import Image, GifImagePlugin
-import time
 
-# Función para extraer la información del GIF
 def obtener_info_gif(ruta_gif):
     try:
-        with Image.open(ruta_gif) as img:
-            if isinstance(img, GifImagePlugin.GifImageFile):
-                # Tamaño de imagen
-                size = img.size
+        with open(ruta_gif, 'rb') as f:
+            # Leer los primeros 6 bytes para obtener la versión del GIF (GIF87a o GIF89a)
+            version = f.read(6).decode('utf-8')
+            
+            # Leer el tamaño de la imagen (anchura y altura) - 2 bytes cada uno (Little Endian)
+            width = int.from_bytes(f.read(2), 'little')
+            height = int.from_bytes(f.read(2), 'little')
+            
+            # Leer el byte del campo de descripción del paquete de imágenes
+            packed_field = f.read(1)[0]
+            
+            # Obtener la cantidad de bits por pixel (de la paleta)
+            bits_per_pixel = (packed_field & 0b00000111) + 1  # Bits per pixel
+            
+            # Comprobar si tiene paleta global de colores
+            has_global_color_table = (packed_field & 0b10000000) != 0
+            
+            # Leer la paleta global de colores si existe
+            if has_global_color_table:
+                # El tamaño de la paleta es 3 bytes por color
+                color_table_size = 2 ** ((packed_field & 0b00000111) + 1)
+                f.read(3 * color_table_size)  # Saltar la paleta global
                 
-                # Número de colores (paleta de colores)
-                if img.getpalette():
-                    num_colores = len(img.getpalette()) // 3  # La paleta tiene 3 valores por color (RGB)
-                else:
-                    num_colores = 'No disponible'
-
-                # Cantidad de imágenes en el GIF (frames)
-                num_imagenes = img.n_frames
-                
-                # Tipo de compresión (GIF usa LZW por defecto)
-                compresion = img.info.get("compression", "LZW")
-                
-                # Color de fondo
-                color_fondo = img.info.get("background", "No especificado")
-                
-                # Comentarios (si los hay)
-                comentarios = img.info.get("comment", "No hay comentarios")
-                
-                # Fechas de creación y modificación
-                fecha_creacion = time.ctime(os.path.getctime(ruta_gif))
-                fecha_modificacion = time.ctime(os.path.getmtime(ruta_gif))
-                
-                return {
-                    "Tamaño": size,
-                    "Colores": num_colores,
-                    "Compresión": compresion,
-                    "Color de fondo": color_fondo,
-                    "Número de imágenes": num_imagenes,
-                    "Fecha de creación": fecha_creacion,
-                    "Fecha de modificación": fecha_modificacion,
-                    "Comentarios": comentarios
-                }
+            # Leer el color de fondo
+            background_color_index = f.read(1)[0]
+            
+            # Comprobar si hay comentarios o datos adicionales en el GIF
+            comentarios = "No hay comentarios"
+            while True:
+                byte = f.read(1)
+                if byte == b'\x21':  # Introducción de extensión (posiblemente comentario)
+                    extension_label = f.read(1)
+                    if extension_label == b'\xfe':  # Comentarios
+                        comentarios = ""
+                        block_size = f.read(1)[0]
+                        while block_size != 0:
+                            comentario = f.read(block_size).decode('utf-8', 'ignore')
+                            comentarios += comentario
+                            block_size = f.read(1)[0]
+                elif byte == b'\x2c':  # Introducción de la imagen
+                    break
+                elif byte == b'\x3b':  # Fin del archivo GIF
+                    break
+            
+            # Fechas de creación y modificación del archivo
+            fecha_creacion = time.ctime(os.path.getctime(ruta_gif))
+            fecha_modificacion = time.ctime(os.path.getmtime(ruta_gif))
+            
+            return {
+                "Número de versión": version,
+                "Tamaño de imagen": (width, height),
+                "Bits por pixel": bits_per_pixel,
+                "Color de fondo (índice)": background_color_index,
+                "Comentarios": comentarios,
+                "Fecha de creación": fecha_creacion,
+                "Fecha de modificación": fecha_modificacion
+            }
     except Exception as e:
         return {"error": str(e)}
 
@@ -67,7 +85,7 @@ ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
 ventana = ctk.CTk()
-ventana.title("Lector de GIFs")
+ventana.title("Lector de GIFs (Bytes)")
 ventana.geometry("600x500")
 
 # Botón para abrir archivos GIF
