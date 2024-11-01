@@ -1,55 +1,39 @@
 import os
 import time
-from tkinter import filedialog
+from tkinter import filedialog, Text
 import customtkinter as ctk
 
 def obtener_info_gif(ruta_gif):
     try:
         with open(ruta_gif, 'rb') as f:
-            # Leer los primeros 6 bytes para obtener la versión del GIF (GIF87a o GIF89a)
+            # Código para obtener información del GIF como antes
             version = f.read(6).decode('utf-8')
-            
-            # Leer el tamaño de la imagen (anchura y altura) - 2 bytes cada uno (Little Endian)
             width = int.from_bytes(f.read(2), 'little')
             height = int.from_bytes(f.read(2), 'little')
-            
-            # Leer el byte del campo de descripción del paquete de imágenes
             packed_field = f.read(1)[0]
-            
-            # Obtener la cantidad de bits por pixel (de la paleta)
-            bits_per_pixel = (packed_field & 0b00000111) + 1  # Bits per pixel
-            
-            # Comprobar si tiene paleta global de colores
+            bits_per_pixel = (packed_field & 0b00000111) + 1
             has_global_color_table = (packed_field & 0b10000000) != 0
             
-            # Leer la paleta global de colores si existe
             if has_global_color_table:
-                # El tamaño de la paleta es 3 bytes por color
                 color_table_size = 2 ** ((packed_field & 0b00000111) + 1)
-                f.read(3 * color_table_size)  # Saltar la paleta global
+                f.read(3 * color_table_size)
                 
-            # Leer el color de fondo
             background_color_index = f.read(1)[0]
-            
-            # Comprobar si hay comentarios o datos adicionales en el GIF
             comentarios = "No hay comentarios"
             while True:
                 byte = f.read(1)
-                if byte == b'\x21':  # Introducción de extensión (posiblemente comentario)
+                if byte == b'\x21':
                     extension_label = f.read(1)
-                    if extension_label == b'\xfe':  # Comentarios
+                    if extension_label == b'\xfe':
                         comentarios = ""
                         block_size = f.read(1)[0]
                         while block_size != 0:
                             comentario = f.read(block_size).decode('utf-8', 'ignore')
                             comentarios += comentario
                             block_size = f.read(1)[0]
-                elif byte == b'\x2c':  # Introducción de la imagen
-                    break
-                elif byte == b'\x3b':  # Fin del archivo GIF
+                elif byte == b'\x2c' or byte == b'\x3b':
                     break
             
-            # Fechas de creación y modificación del archivo
             fecha_creacion = time.ctime(os.path.getctime(ruta_gif))
             fecha_modificacion = time.ctime(os.path.getmtime(ruta_gif))
             
@@ -65,7 +49,6 @@ def obtener_info_gif(ruta_gif):
     except Exception as e:
         return {"error": str(e)}
 
-# Función para abrir archivo y mostrar la información
 def abrir_gifs():
     rutas_gifs = filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
     if rutas_gifs:
@@ -73,19 +56,13 @@ def abrir_gifs():
             info = obtener_info_gif(ruta)
             mostrar_info(ruta, info)
 
-# Función para mostrar la información en la interfaz en columnas
+# Función para mostrar la información en la interfaz con colores
 def mostrar_info(ruta, info):
-    # Primero, muestra el nombre del archivo en la primera columna
-    info_textbox.insert(ctk.END, f"{'Archivo:':<15} {ruta}\n")
-    
-    # Luego, muestra cada dato en una fila en columnas
+    info_textbox.insert("end", f"Archivo: {ruta}\n", "titulo")
     for clave, valor in info.items():
-        # Formatea cada línea con espacios para alineación en columnas
-        info_textbox.insert(ctk.END, f"{clave:<25} {str(valor):<25}\n")
-        
-    # Añade una línea divisoria entre archivos
-    info_textbox.insert(ctk.END, "\n" + "-"*50 + "\n")
-
+        info_textbox.insert("end", f"{clave}: ", "clave")
+        info_textbox.insert("end", f"{valor}\n", "valor")
+    info_textbox.insert("end", "\n" + "-"*50 + "\n")
 
 # Configuración de la interfaz gráfica
 ctk.set_appearance_mode("System")
@@ -95,12 +72,14 @@ ventana = ctk.CTk()
 ventana.title("Lector de GIFs (Bytes)")
 ventana.geometry("600x500")
 
-# Botón para abrir archivos GIF
 boton_abrir = ctk.CTkButton(ventana, text="Abrir GIFs", command=abrir_gifs)
 boton_abrir.pack(pady=20)
 
-# Cuadro de texto para mostrar la información
-info_textbox = ctk.CTkTextbox(ventana, width=500, height=300)
+# Usar Text en lugar de CTkTextbox
+info_textbox = Text(ventana, width=70, height=20)
+info_textbox.tag_configure("titulo", foreground="blue", font=("Helvetica", 10, "bold"))
+info_textbox.tag_configure("clave", foreground="green")
+info_textbox.tag_configure("valor", foreground="black")
 info_textbox.pack(pady=20)
 
 ventana.mainloop()

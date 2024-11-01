@@ -33,7 +33,7 @@ def zoom(event):
     
 size = 12 #Tamaño original de las letras
 
-box1 = ctk.CTkTextbox(master=window, wrap=ctk.NONE, font=("Times New Roman", size), width=1512, height=250)
+box1 = ctk.CTkTextbox(master=window, wrap=ctk.NONE, font=("Times New Roman", size), width=300, height=760)
 box1.place(x=10, y=10)
 
 box1.bind("<MouseWheel>", scrool)
