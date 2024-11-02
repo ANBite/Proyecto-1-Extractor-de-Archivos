@@ -18,20 +18,23 @@ def obtener_info_gif(ruta_gif):
             
             # Obtener la cantidad de bits por pixel (de la paleta)
             bits_per_pixel = (packed_field & 0b00000111) + 1  # Bits per pixel
+            cantidad_colores = 2 ** bits_per_pixel  # Cantidad de colores
             
             # Comprobar si tiene paleta global de colores
             has_global_color_table = (packed_field & 0b10000000) != 0
             
             # Leer la paleta global de colores si existe
             if has_global_color_table:
-                # El tamaño de la paleta es 3 bytes por color
                 color_table_size = 2 ** ((packed_field & 0b00000111) + 1)
                 f.read(3 * color_table_size)  # Saltar la paleta global
-                
+            
             # Leer el color de fondo
             background_color_index = f.read(1)[0]
             
-            # Comprobar si hay comentarios o datos adicionales en el GIF
+            # Contar la cantidad de imágenes y determinar el tipo de compresión
+            cantidad_imagenes = 0
+            tipo_compresion = "LZW"  # Los GIFs usan generalmente LZW
+
             comentarios = "No hay comentarios"
             while True:
                 byte = f.read(1)
@@ -45,7 +48,7 @@ def obtener_info_gif(ruta_gif):
                             comentarios += comentario
                             block_size = f.read(1)[0]
                 elif byte == b'\x2c':  # Introducción de la imagen
-                    break
+                    cantidad_imagenes += 1
                 elif byte == b'\x3b':  # Fin del archivo GIF
                     break
             
@@ -53,14 +56,21 @@ def obtener_info_gif(ruta_gif):
             fecha_creacion = time.ctime(os.path.getctime(ruta_gif))
             fecha_modificacion = time.ctime(os.path.getmtime(ruta_gif))
             
+            # Formato numérico (hexadecimal y decimal)
+            formato_numerico = f"Hex: {width:#04x}x{height:#04x}, Dec: {width}x{height}"
+            
             return {
                 "Número de versión": version,
                 "Tamaño de imagen": (width, height),
                 "Bits por pixel": bits_per_pixel,
+                "Cantidad de colores": cantidad_colores,
                 "Color de fondo (índice)": background_color_index,
                 "Comentarios": comentarios,
                 "Fecha de creación": fecha_creacion,
-                "Fecha de modificación": fecha_modificacion
+                "Fecha de modificación": fecha_modificacion,
+                "Cantidad de imágenes": cantidad_imagenes,
+                "Tipo de compresión": tipo_compresion,
+                "Formato numérico": formato_numerico
             }
     except Exception as e:
         return {"error": str(e)}
@@ -85,7 +95,6 @@ def mostrar_info(ruta, info):
         
     # Añade una línea divisoria entre archivos
     info_textbox.insert(ctk.END, "\n" + "-"*50 + "\n")
-
 
 # Configuración de la interfaz gráfica
 ctk.set_appearance_mode("System")

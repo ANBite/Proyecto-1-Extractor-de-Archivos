@@ -53,23 +53,31 @@ def abrir_gifs():
     if rutas_gifs:
         for ruta in rutas_gifs:
             info = obtener_info_gif(ruta)
-            mostrar_info_y_gif(ruta, info)
+            mostrar_info(ruta, info)
+            mostrar_gif(ruta)
 
-def mostrar_info_y_gif(ruta, info):
-    # Crear un marco dentro del marco desplazable para cada GIF e información
-    gif_frame = ctk.CTkFrame(scrollable_frame)
-    gif_frame.pack(pady=10, padx=10, fill="both")
+def abrir_carpeta():
+    carpeta = filedialog.askdirectory()
+    if carpeta:
+        for root, _, files in os.walk(carpeta):
+            for file in files:
+                if file.lower().endswith(".gif"):
+                    ruta_gif = os.path.join(root, file)
+                    info = obtener_info_gif(ruta_gif)
+                    mostrar_info(ruta_gif, info)
+                    mostrar_gif(ruta_gif)
 
-    # Mostrar la información del GIF en etiquetas
+def mostrar_info(ruta, info):
     info_text = f"{'Archivo:':<15} {ruta}\n"
     for clave, valor in info.items():
         info_text += f"{clave:<25} {str(valor):<25}\n"
+    info_text += "\n" + "-"*50 + "\n"
     
-    info_label = ctk.CTkLabel(gif_frame, text=info_text, anchor="w", justify="left")
-    info_label.pack(pady=5)
+    info_label = ctk.CTkLabel(info_frame, text=info_text, anchor="w", justify="left")
+    info_label.pack(pady=5, padx=5)
 
-    # Mostrar el GIF
-    gif = Image.open(ruta)
+def mostrar_gif(ruta_gif):
+    gif = Image.open(ruta_gif)
     frames = []
     try:
         while True:
@@ -79,7 +87,7 @@ def mostrar_info_y_gif(ruta, info):
         pass
 
     gif_label = Label(gif_frame)
-    gif_label.pack()
+    gif_label.pack(pady=5, padx=5)
 
     def actualizar_frame(indice):
         frame = frames[indice]
@@ -96,14 +104,18 @@ ctk.set_default_color_theme("blue")
 
 ventana = ctk.CTk()
 ventana.title("Lector de GIFs (Bytes)")
-ventana.geometry("800x600")
+ventana.geometry("1000x600")
 
+# Botones para abrir archivos GIF individuales o una carpeta
 boton_abrir = ctk.CTkButton(ventana, text="Abrir GIFs", command=abrir_gifs)
-boton_abrir.pack(pady=20)
+boton_abrir.pack(pady=5)
+boton_abrir_carpeta = ctk.CTkButton(ventana, text="Abrir Carpeta de GIFs", command=abrir_carpeta)
+boton_abrir_carpeta.pack(pady=5)
 
-# Crear un marco desplazable para mostrar la información y los GIFs
-scrollable_frame = ctk.CTkScrollableFrame(ventana, width=750, height=500)
-scrollable_frame.pack(pady=20, padx=10)
+# Marcos desplazables para mostrar la información y los GIFs
+info_frame = ctk.CTkScrollableFrame(ventana, width=450, height=500)
+info_frame.pack(side="left", padx=10, pady=10)
+gif_frame = ctk.CTkScrollableFrame(ventana, width=450, height=500)
+gif_frame.pack(side="right", padx=10, pady=10)
 
 ventana.mainloop()
-

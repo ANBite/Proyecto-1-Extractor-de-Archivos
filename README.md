@@ -20,6 +20,26 @@ Windows 11
 
     ❌ Lectura de información de archivos GIF
 
+      ✅ Número de Versión
+
+      ✅ Tamaño de imagen
+
+      ✅ Cantidad de colores
+
+      ✅ Tipo de comprensión de imagen
+
+      ✅ Formato numérico
+
+      ✅ Color de fondo
+
+      ✅ Cantidad de imágenes que contiene 
+
+      ✅ Fecha de creación
+
+      ✅ Fecha de modificación
+
+      ✅ Comentarios agregados  
+
     ❌ Edición de datos
 
 **Organización de información:**
