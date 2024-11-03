@@ -16,10 +16,6 @@ def open_gif():
             info_gif(ruta, box1)
 
 
-
-
-
-
 """| Ventana principal |"""
 window = ctk.CTkToplevel() #Se crea la ventana
 window.geometry("1550x850") #Se da el tamaño a la ventana
