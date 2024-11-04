@@ -16,11 +16,13 @@ l_modificacion = [] #Lista para la fecha de modificación
 l_comentarios = [] #Lista para los comentarios
 
 
-
 """| Método para leer información en los gif |"""
-cantidad_de_gif_ingresados = 0
-def info_gif(ruta_gif, lugar_print):
+
+
+def info_gif(ruta_gif):
     with open(ruta_gif, "rb") as file: #Se abre el archivo
+            
+
             version = file.read(6).decode("utf-8") #Se leen los 6 primeros bytes
             
             width = int.from_bytes(file.read(2), "little") #Se lee el ancho del gif
@@ -39,6 +41,8 @@ def info_gif(ruta_gif, lugar_print):
 
             num_imgs = 0 #Cantidad de imagenes en el gif (por defecto 0)
             comments = "No hay comentarios" #Comentarios en el gif (por defecto no hay)
+            
+            
 
             while True:
                 byte = file.read(1)
@@ -85,24 +89,34 @@ def info_gif(ruta_gif, lugar_print):
             l_creacion.append(f_creation)
             l_modificacion.append(f_modification)
             l_comentarios.append(comments)
+    
 
 
-            lugar_print.configure(state=ctk.NORMAL)
-            lugar_print.delete(1.0, ctk.END)
+def showinfo(ruta_gif, lugar_print):
 
-            lugar_print.insert(ctk.END, f"\n---------- GIF #{cantidad_de_gif_ingresados} ----------")
-            lugar_print.insert(ctk.END, f"\nArchivo: {l_archivo[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nVersión: {l_version[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nTamaño de imagen: {l_tamanio[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nCantidad de colores: {l_cantcolores[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nComprensión: {l_comprension[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nFormato de imagen: {l_formatonumeric[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nColor de fondo: {l_colorfondo[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nNúmero de imágenes: {l_nimagenes[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nFecha de creación: {l_creacion[cantidad_de_gif_ingresados]}")
-            lugar_print.insert(ctk.END, f"\nFecha de modificación: {l_modificacion[cantidad_de_gif_ingresados]}")        
-            lugar_print.insert(ctk.END, f"\nComentarios: {l_comentarios[cantidad_de_gif_ingresados]}") 
+    info_gif(ruta_gif)
+
+    c = len(l_archivo)
+    print(c)
+
+    lugar_print.configure(state=ctk.NORMAL)
+    lugar_print.delete(1.0, ctk.END)
+
+    for i in range(c):
+        lugar_print.insert(ctk.END, f"\n---------- GIF #{i+1} ----------")
+        lugar_print.insert(ctk.END, f"\nArchivo: {l_archivo[i]}")
+        lugar_print.insert(ctk.END, f"\nVersión: {l_version[i]}")
+        lugar_print.insert(ctk.END, f"\nTamaño de imagen: {l_tamanio[i]}")
+        lugar_print.insert(ctk.END, f"\nCantidad de colores: {l_cantcolores[i]}")
+        lugar_print.insert(ctk.END, f"\nComprensión: {l_comprension[i]}")
+        lugar_print.insert(ctk.END, f"\nFormato de imagen: {l_formatonumeric[i]}")
+        lugar_print.insert(ctk.END, f"\nColor de fondo: {l_colorfondo[i]}")
+        lugar_print.insert(ctk.END, f"\nNúmero de imágenes: {l_nimagenes[i]}")
+        lugar_print.insert(ctk.END, f"\nFecha de creación: {l_creacion[i]}")
+        lugar_print.insert(ctk.END, f"\nFecha de modificación: {l_modificacion[i]}")        
+        lugar_print.insert(ctk.END, f"\nComentarios: {l_comentarios[i]}\n") 
 
 
-            lugar_print.configure(state=ctk.DISABLED)    
-            cantidad_de_gif_ingresados += 1
+
+    lugar_print.configure(state=ctk.DISABLED)
+     
