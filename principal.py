@@ -6,15 +6,12 @@ import os
 import utilidades.utilidad_ventana as util_ventana #Archivo para que quede centrada la ventana
 import utilidades.utilidad_imagen as util_imagen #Archivo para que las imágenes sean compatibles
 from lectura_gif import showinfo
-#from prueba import info_gif
-
 
 """| Comando para abrir un archivo gif |"""
 def open_gif():
     rutas_gifs = filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
     if rutas_gifs:
         for ruta in rutas_gifs:
-            #info_gif(ruta, box1)
             showinfo(ruta, box1)
 
 
