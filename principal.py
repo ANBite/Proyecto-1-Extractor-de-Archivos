@@ -16,6 +16,20 @@ def open_gif():
             showinfo(ruta, box1)
             show_gif(ruta,box2, window)
 
+def open_carpeta():
+    seleccion = filedialog.askdirectory(title="Seleccione una carpeta") or filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
+    
+    if isinstance(seleccion, str) and os.path.isdir(seleccion):
+        rutas_gifs = [os.path.join(seleccion, f) for f in os.listdir(seleccion) if f.lower().endswith(".gif")]
+    else:  
+        rutas_gifs = seleccion
+    
+    for ruta in rutas_gifs:
+
+        print("listo encontre un gift")
+        showinfo(ruta, box1)
+        show_gif(ruta, box2, window) 
+
 
 """| Ventana principal |"""
 window = ctk.CTkToplevel() #Se crea la ventana
@@ -59,7 +73,7 @@ box1.bind("<MouseWheel>", scrool)
 botton_gif = ctk.CTkButton(master=window, text="ABRIR GIFs", command=open_gif)
 botton_gif.place(x=350, y=20)
 
-botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", command=open_gif)
+botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", command=open_carpeta)
 botton_folder.place(x=550, y=20)
 
 
