@@ -1,8 +1,10 @@
 # Proyecto 1 - Extractor de Archivos
 
-**Integrante:**
+**Integrantes:**
 
 Allan Francisco Moisés Chaclán Guinea - 1502023
+
+Juan Marcos Cortés Enriquez           - 1530623
 
 **Nombre y versión SO utilizada:**
 
@@ -16,7 +18,7 @@ Windows 11
 
 **Funcionamiento:**
 
-    ❌ Lectura de carpetas
+    ✅ Lectura de carpetas
 
     ✅ Lectura de información de archivos GIF
 

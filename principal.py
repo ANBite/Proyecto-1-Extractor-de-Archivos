@@ -18,14 +18,12 @@ def open_gif():
 
 def open_carpeta():
     seleccion = filedialog.askdirectory(title="Seleccione una carpeta") or filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
-    
     if isinstance(seleccion, str) and os.path.isdir(seleccion):
         rutas_gifs = [os.path.join(seleccion, f) for f in os.listdir(seleccion) if f.lower().endswith(".gif")]
     else:  
         rutas_gifs = seleccion
     
     for ruta in rutas_gifs:
-
         print("listo encontre un gift")
         showinfo(ruta, box1)
         show_gif(ruta, box2, window) 
@@ -41,6 +39,8 @@ util_ventana.centrar_ventana(window, 1550, 870)
 fondo = util_imagen.leer_imagen("./imagenes/imgfondo.jpg", (1960,1150))
 background_label = ctk.CTkLabel(master=window, text="",image=fondo, width=0, height=0)
 background_label.place(relx=0, rely=0, relwidth=1, relheight=1)
+
+
 
 
 """| Cajas de texto y Marco con Scrool |"""
