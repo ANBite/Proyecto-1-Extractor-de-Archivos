@@ -18,7 +18,7 @@ Windows 11
 
     ❌ Lectura de carpetas
 
-    ❌ Lectura de información de archivos GIF
+    ✅ Lectura de información de archivos GIF
 
       ✅ Número de Versión
 

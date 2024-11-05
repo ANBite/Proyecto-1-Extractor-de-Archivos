@@ -6,6 +6,7 @@ import os
 import utilidades.utilidad_ventana as util_ventana #Archivo para que quede centrada la ventana
 import utilidades.utilidad_imagen as util_imagen #Archivo para que las imágenes sean compatibles
 from lectura_gif import showinfo
+from mostrar_gif import show_gif
 
 """| Comando para abrir un archivo gif |"""
 def open_gif():
@@ -13,6 +14,7 @@ def open_gif():
     if rutas_gifs:
         for ruta in rutas_gifs:
             showinfo(ruta, box1)
+            show_gif(ruta,box2, window)
 
 
 """| Ventana principal |"""
@@ -27,7 +29,7 @@ background_label = ctk.CTkLabel(master=window, text="",image=fondo, width=0, hei
 background_label.place(relx=0, rely=0, relwidth=1, relheight=1)
 
 
-"""| Cajas de texto |"""
+"""| Cajas de texto y Marco con Scrool |"""
 def scrool(event):
     # Desplazarse verticalmente con la rueda del mouse
     box1.yview_scroll(int(-1*(event.delta/120)), "units")
@@ -46,12 +48,23 @@ size = 16 #Tamaño original de las letras
 box1 = ctk.CTkTextbox(master=window, wrap=ctk.NONE, font=("Times New Roman", size), width=300, height=760)
 box1.place(x=10, y=10)
 
+box2 = ctk.CTkScrollableFrame(master=window, width=350, height=750)
+box2.place(x=1150, y=10)
+
+
 box1.bind("<MouseWheel>", scrool)
 
 
 """| Botones |"""
-botton_open = ctk.CTkButton(master=window, text="ABRIR ARCHIVOS", command=open_gif)
-botton_open.pack(padx=10, pady=20)
+botton_gif = ctk.CTkButton(master=window, text="ABRIR GIFs", command=open_gif)
+botton_gif.place(x=350, y=20)
+
+botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", command=open_gif)
+botton_folder.place(x=550, y=20)
+
+
+botton_save = ctk.CTkButton(master=window, text="ARCHIVOS GIFs ANTERIORES", command=open_gif)
+botton_save.place(x=800, y=20)
 
 
 
