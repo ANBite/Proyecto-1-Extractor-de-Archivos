@@ -5,7 +5,7 @@ import os
 from datos_archivo import Datos
 import utilidades.utilidad_ventana as util_ventana #Archivo para que quede centrada la ventana
 import utilidades.utilidad_imagen as util_imagen #Archivo para que las imágenes sean compatibles
-from lectura_gif import showinfo
+from lectura_gif import showinfo, show_info_change
 from mostrar_gif import show_gif
 from write_txt import Write_txt
 
@@ -34,16 +34,22 @@ def open_carpeta():
         a = showinfo(ruta, box1, [])
         show_gif(ruta, box2, window) 
         Write_txt(ruta)
-        for i in range(len(a)):
-            lista_archivos.append(a[i])
-
+    
+    for i in range(len(a)):
+        lista_archivos.append(a[i])
+    
     
 def show_history():
     with open("historial/rutas.txt", "r") as archivo:
         for linea in archivo:
-            showinfo(linea.strip(), box1, [])
-            show_gif(linea.strip(), box2, window)
-
+            try:
+                a = showinfo(linea.strip(), box1, [])
+                show_gif(linea.strip(), box2, window)
+            except EOFError:
+                pass
+        for i in range(len(a)):
+            lista_archivos.append(a[i])
+        
 """| Ventana principal |"""
 window = ctk.CTkToplevel() #Se crea la ventana
 window.geometry("1550x850") #Se da el tamaño a la ventana
@@ -79,19 +85,18 @@ def modificar():
     entry_dato.configure(state="normal", placeholder_text="Nuevo dato",  font=("Times New Roman", 15, "bold"))
 
 def confirmar():
-    print(entry.get(), combobox.get())
-    for i in range(len(lista_archivos)):
-        print(i + 1, entry.get())
-        if (str(i + 1) == str(entry.get())):
-            box1.delete(1.0, "end")
-            data_find = lista_archivos[i]
-            data_find.change_dato(str(combobox.get()), str(entry_dato.get()))
-            break
-
+    box1.delete(1.0, "end")
+    index = int(entry.get())
+    contador = 1
     for dats in lista_archivos:
-        showinfo(dats.ruta, box1, [])
-    
+        if index == contador:
+            print("llegue aca pa")
+            dats.change_dato(str(combobox.get()), str(entry_dato.get()))
+        contador += 1
+        show_info_change(box1, lista_archivos)
+        print(contador)
         
+    
 
 size = 16 #Tamaño original de las letras
 

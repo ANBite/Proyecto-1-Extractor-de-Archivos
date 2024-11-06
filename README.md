@@ -42,7 +42,7 @@ Windows 11
 
       ✅ Comentarios agregados  
 
-    ❌ Edición de datos
+    ✅ Edición de datos
 
 **Organización de información:**
 
@@ -52,7 +52,7 @@ Windows 11
 
 **Búsqueda o despliegue de la información:**
 
-    ❌ Algoritmos de búsqueda utilizados
+    ✅ Algoritmos de búsqueda utilizados
 
     ✅ Interfáz amigable para el uso
 

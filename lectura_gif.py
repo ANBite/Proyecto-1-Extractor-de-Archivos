@@ -120,3 +120,24 @@ def showinfo(ruta_gif, lugar_print, lista):
     lugar_print.configure(state=ctk.DISABLED)
     return list_of_datos
     
+
+def show_info_change(lugar_print, lista):
+    lugar_print.configure(state=ctk.NORMAL)
+    lugar_print.delete(1.0, ctk.END)
+
+    for i in range(len(lista)):
+        lugar_print.insert(ctk.END, f"\n---------- GIF #{i+1} ----------")
+        lugar_print.insert(ctk.END, f"\nArchivo: {lista[i].archivo}")
+        lugar_print.insert(ctk.END, f"\nVersión: {lista[i].version}")
+        lugar_print.insert(ctk.END, f"\nTamaño de imagen: {lista[i].tamanio}")
+        lugar_print.insert(ctk.END, f"\nCantidad de colores: {lista[i].cantcolores}")
+        lugar_print.insert(ctk.END, f"\nComprensión: {lista[i].comprension}")
+        lugar_print.insert(ctk.END, f"\nFormato de imagen: {lista[i].formatonum}")
+        lugar_print.insert(ctk.END, f"\nColor de fondo: {lista[i].backgroudn}")
+        lugar_print.insert(ctk.END, f"\nNúmero de imágenes: {lista[i].nimagenes}")
+        lugar_print.insert(ctk.END, f"\nFecha de creación: {lista[i].creacion}")
+        lugar_print.insert(ctk.END, f"\nFecha de modificación: {lista[i].modificacion}")        
+        lugar_print.insert(ctk.END, f"\nComentarios: {lista[i].comentarios}\n") 
+    
+    lugar_print.configure(state=ctk.DISABLED)
+    
