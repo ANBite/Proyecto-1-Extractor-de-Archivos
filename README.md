@@ -48,7 +48,7 @@ Windows 11
 
     ✅ Estructura del archivo donde se almacena la información
 
-    ❌ Facilidad de acceso a la información para editar o borrar datos
+    ✅ Facilidad de acceso a la información para editar o borrar datos
 
 **Búsqueda o despliegue de la información:**
 
@@ -58,7 +58,7 @@ Windows 11
 
 **REPORTE:**
 
-    ❌ Redacción
+    ✅ Redacción
 
     ✅ Información adecuada para cada punto solicitado
 
@@ -66,7 +66,7 @@ Windows 11
 
     ✅ Introducción
 
-    ❌ Manual de Usuario
+    ✅ Manual de Usuario
 
     ❌ Estructura de almacenamiento
 
