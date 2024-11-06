@@ -68,8 +68,8 @@ Windows 11
 
     ✅ Manual de Usuario
 
-    ❌ Estructura de almacenamiento
+    ✅ Estructura de almacenamiento
 
-    ❌ Algoritmos utilizados
+    ✅ Algoritmos utilizados
 
     ✅ Conclusiones
