@@ -7,6 +7,7 @@ import utilidades.utilidad_ventana as util_ventana #Archivo para que quede centr
 import utilidades.utilidad_imagen as util_imagen #Archivo para que las imágenes sean compatibles
 from lectura_gif import showinfo
 from mostrar_gif import show_gif
+from write_txt import Write_txt
 
 """| Comando para abrir un archivo gif |"""
 def open_gif():
@@ -15,6 +16,8 @@ def open_gif():
         for ruta in rutas_gifs:
             showinfo(ruta, box1)
             show_gif(ruta,box2, window)
+            Write_txt(ruta)
+
 
 def open_carpeta():
     seleccion = filedialog.askdirectory(title="Seleccione una carpeta") or filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
@@ -24,10 +27,15 @@ def open_carpeta():
         rutas_gifs = seleccion
     
     for ruta in rutas_gifs:
-        print("listo encontre un gift")
-        showinfo(ruta, box1)
+        a = showinfo(ruta, box1)
         show_gif(ruta, box2, window) 
+        Write_txt(ruta)
 
+def show_history():
+    with open("historial/rutas.txt", "r") as archivo:
+        for linea in archivo:
+            showinfo(linea.strip(), box1)
+            show_gif(linea.strip(), box2, window)
 
 """| Ventana principal |"""
 window = ctk.CTkToplevel() #Se crea la ventana
@@ -77,7 +85,7 @@ botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", comm
 botton_folder.place(x=550, y=20)
 
 
-botton_save = ctk.CTkButton(master=window, text="ARCHIVOS GIFs ANTERIORES", command=open_gif)
+botton_save = ctk.CTkButton(master=window, text="ARCHIVOS GIFs ANTERIORES", command=show_history)    
 botton_save.place(x=800, y=20)
 
 

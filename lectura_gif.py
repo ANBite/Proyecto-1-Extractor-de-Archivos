@@ -2,7 +2,7 @@
 import os #Necesario para abrir un archivo
 import time #Para saber en que momento fue modificado el archivo
 import customtkinter as ctk #Para mostrar la información obtenida
-
+from datos_archivo import Datos
 l_archivo = [] #Lista para tener el nombre de los archivos
 l_version = [] #Lista para tener todas las versiones
 l_tamanio = [] #Lista para tener todos los tamaños
@@ -14,7 +14,7 @@ l_nimagenes = [] #Lista para numero de imagenes que contiene
 l_creacion = [] #Lita para la fecha de creacion
 l_modificacion = [] #Lista para la fecha de modificación
 l_comentarios = [] #Lista para los comentarios
-
+list_of_datos = []
 
 """| Método para leer información en los gif |"""
 
@@ -77,7 +77,9 @@ def info_gif(ruta_gif):
             comprension = "LZW"
             archivo = ruta_gif
 
-
+            new_datos = Datos(archivo, version, size_gif, num_colors,comprension, color_resolution, background_color,  num_imgs, f_creation, f_modification, comments, ruta_gif)
+            # agrego los datos a una lista de clase
+            list_of_datos.append(new_datos)
             l_archivo.append(archivo)
             l_version.append(version)
             l_tamanio.append(size_gif)
@@ -115,8 +117,6 @@ def showinfo(ruta_gif, lugar_print):
         lugar_print.insert(ctk.END, f"\nFecha de creación: {l_creacion[i]}")
         lugar_print.insert(ctk.END, f"\nFecha de modificación: {l_modificacion[i]}")        
         lugar_print.insert(ctk.END, f"\nComentarios: {l_comentarios[i]}\n") 
-
-
-
     lugar_print.configure(state=ctk.DISABLED)
-     
+    return list_of_datos
+    
