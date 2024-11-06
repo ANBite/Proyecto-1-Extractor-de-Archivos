@@ -12,6 +12,8 @@ Windows 11
 
 **Comentarios para la ejecución del programa:**
 
+Al iniciar el programa en un dispositivo nuevo, se debe eliminar el contenido que tiene rutas.txt
+
 ---------------------------------------------
 
 # ASPECTOS A CALIFICAR:
