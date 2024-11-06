@@ -37,3 +37,6 @@ class Datos():
     
     def return_ruta(self):
         return self.ruta
+
+    def return_all_data(self):
+        return 
