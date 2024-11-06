@@ -11,3 +11,4 @@ C:/Users/Usuario/Pictures/gifs\gif5.gif
 C:/Users/Usuario/Pictures/gifs\gif6.gif
 C:/Users/Usuario/Pictures/gifs\gif7.gif
 C:/Users/Usuario/Pictures/gifs/gif7.gif
+C:/Users/Usuario/Pictures/gifs/gif4.gif

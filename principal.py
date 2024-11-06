@@ -73,10 +73,10 @@ def zoom(event):
     box1.configure(font=("Times New Roman", size))
 
 def modificar():
-    button_confirmar.configure(state="normal" )
-    entry.configure(state="normal")
-    combobox.configure(state="normal")
-    entry_dato.configure(state="normal")
+    button_confirmar.configure(state="normal", font=("Times New Roman", 15, "bold"))
+    entry.configure(state="normal", placeholder_text="# del GIF a modificar",  font=("Times New Roman", 15, "bold"))
+    combobox.configure(state="normal", font=("Times New Roman", 20, "bold"))
+    entry_dato.configure(state="normal", placeholder_text="Nuevo dato",  font=("Times New Roman", 15, "bold"))
 
 def confirmar():
     print(entry.get(), combobox.get())
@@ -106,34 +106,39 @@ box1.bind("<MouseWheel>", scrool)
 
 
 """| Botones |"""
-botton_gif = ctk.CTkButton(master=window, text="ABRIR GIFs", command=open_gif)
-botton_gif.place(x=350, y=20)
+botton_gif = ctk.CTkButton(master=window, text="ABRIR GIFs", command=open_gif, font=("Times New Roman", 15, "bold"),
+                           width=30, height=30)
+botton_gif.place(x=650, y=50)
 
-botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", command=open_carpeta)
-botton_folder.place(x=550, y=20)
+botton_folder = ctk.CTkButton(master=window, text="ABRIR CARPETAS de GIFs", command=open_carpeta, font=("Times New Roman", 15, "bold"),
+                              width=30, height=30)
+botton_folder.place(x=370, y=150)
 
 
-botton_save = ctk.CTkButton(master=window, text="ARCHIVOS GIFs ANTERIORES", command=show_history)    
-botton_save.place(x=800, y=20)
+botton_save = ctk.CTkButton(master=window, text="ARCHIVOS GIFs ANTERIORES", command=show_history, font=("Times New Roman", 15, "bold"),
+                              width=30, height=30)    
+botton_save.place(x=800, y=150)
 
-button_modificate = ctk.CTkButton(master=window, text="MODIFICAR ARCHIVO", command=modificar)    
-button_modificate.place(x=350, y=60)
+button_modificate = ctk.CTkButton(master=window, text="MODIFICAR ARCHIVO", command=modificar, font=("Times New Roman", 15, "bold"),
+                              width=30, height=30)    
+
+button_modificate.place(x=600, y=300)
 
 # ingresa el numero que quiere modificar 
-entry = ctk.CTkEntry(master=window, state="disable" )
-entry.place(x=500, y=60)
+entry = ctk.CTkEntry(master=window, state="disable", width=160, height=30)
+entry.place(x=500, y=380)
 # ingresa el dato a modificar
 
-entry_dato = ctk.CTkEntry(master=window, state="disable" )
-entry_dato.place(x=500, y=100)
+entry_dato = ctk.CTkEntry(master=window,state="disable")
+entry_dato.place(x=500, y=420)
 
 
 opciones = ["archivo", "version", "tamaño","cantidad_colores", "comprension", "formato_numerico", "background", "date_creacion", "date_modificacion", "comentarios"]
-combobox = ctk.CTkComboBox(master=window, values=opciones, state="disable" )
-combobox.place(x=750, y=60)
+combobox = ctk.CTkComboBox(master=window, values=opciones, state="disable")
+combobox.place(x=750, y=380)
 
 button_confirmar = ctk.CTkButton(master=window, text="CONFIRMAR", state="disable", command=confirmar)
-button_confirmar.place(x=1000, y=60)
+button_confirmar.place(x=630, y=500)
 
 
 
