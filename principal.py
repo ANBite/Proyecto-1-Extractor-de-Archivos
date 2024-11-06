@@ -8,6 +8,7 @@ import utilidades.utilidad_imagen as util_imagen #Archivo para que las imágenes
 from lectura_gif import showinfo
 from mostrar_gif import show_gif
 from write_txt import Write_txt
+
 lista_archivos = []
 
 """| Comando para abrir un archivo gif |"""

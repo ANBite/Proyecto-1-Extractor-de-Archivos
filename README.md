@@ -46,7 +46,7 @@ Windows 11
 
 **Organización de información:**
 
-    ❌ Estructura del archivo donde se almacena la información
+    ✅ Estructura del archivo donde se almacena la información
 
     ❌ Facilidad de acceso a la información para editar o borrar datos
 
@@ -60,11 +60,11 @@ Windows 11
 
     ❌ Redacción
 
-    ❌ Información adecuada para cada punto solicitado
+    ✅ Información adecuada para cada punto solicitado
 
 # REPORTE:
 
-    ❌ Introducción
+    ✅ Introducción
 
     ❌ Manual de Usuario
 
@@ -72,4 +72,4 @@ Windows 11
 
     ❌ Algoritmos utilizados
 
-    ❌ Conclusiones
+    ✅ Conclusiones
