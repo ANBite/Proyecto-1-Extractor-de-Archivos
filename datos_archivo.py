@@ -35,6 +35,9 @@ class Datos():
         elif type == "comentarios":
             self.comentarios = data
     
+
+
+
     def return_ruta(self):
         return self.ruta
 

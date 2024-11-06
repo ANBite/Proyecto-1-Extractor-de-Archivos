@@ -94,7 +94,7 @@ def info_gif(ruta_gif):
     
 
 
-def showinfo(ruta_gif, lugar_print):
+def showinfo(ruta_gif, lugar_print, lista):
 
     info_gif(ruta_gif)
 

@@ -15,7 +15,7 @@ def open_gif():
     rutas_gifs = filedialog.askopenfilenames(filetypes=[("GIF files", "*.gif")])
     if rutas_gifs:
         for ruta in rutas_gifs:
-            a = showinfo(ruta, box1)
+            a = showinfo(ruta, box1, [])
             show_gif(ruta,box2, window)
             Write_txt(ruta)
             lista_archivos.append(a[0])
@@ -30,7 +30,7 @@ def open_carpeta():
         rutas_gifs = seleccion
     
     for ruta in rutas_gifs:
-        a = showinfo(ruta, box1)
+        a = showinfo(ruta, box1, [])
         show_gif(ruta, box2, window) 
         Write_txt(ruta)
         for i in range(len(a)):
@@ -40,7 +40,7 @@ def open_carpeta():
 def show_history():
     with open("historial/rutas.txt", "r") as archivo:
         for linea in archivo:
-            showinfo(linea.strip(), box1)
+            showinfo(linea.strip(), box1, [])
             show_gif(linea.strip(), box2, window)
 
 """| Ventana principal |"""
@@ -80,12 +80,17 @@ def modificar():
 def confirmar():
     print(entry.get(), combobox.get())
     for i in range(len(lista_archivos)):
-        if (str(i + 1) == entry.get):
+        print(i + 1, entry.get())
+        if (str(i + 1) == str(entry.get())):
+            box1.delete(1.0, "end")
             data_find = lista_archivos[i]
-            data_find.change_dato(str(combobox.get()), str(entry.get()))
-    
+            data_find.change_dato(str(combobox.get()), str(entry_dato.get()))
+            break
+
     for dats in lista_archivos:
-        print(dats)
+        showinfo(dats.ruta, box1, [])
+    
+        
 
 size = 16 #Tamaño original de las letras
 
